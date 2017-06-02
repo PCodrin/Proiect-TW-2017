@@ -1,3 +1,12 @@
+<?php
+	session_start();
+	if(!isset($_SESSION['id']))
+	{
+		header('location:../index.php');
+    	exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,6 +73,8 @@
 			
 
 			<input id="date" type="date" value="2017-06-01">
+
+			<button type="submit" name="submit">Search</button>
 		</form>
 		
 	</main>

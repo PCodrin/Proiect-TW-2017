@@ -33,6 +33,23 @@
               <input type="password" name="login-pass" placeholder="password" required />
               <button type="submit" name="login-bt">login</button>
               <p class="message">Not registered? <a href="#">Create an account</a></p>
+              <?php
+                if (isset($_GET["msg"]) && $_GET["msg"] == 'success') {
+                echo '<p class="message success">Account created!</p>';
+                }
+
+                if (isset($_GET["msg"]) && $_GET["msg"] == 'failed') {
+                echo '<p class="message wrong">Wrong username or password! <a href="index.php">Try again!</a></p>';
+                }
+
+                if (isset($_GET["msg"]) && $_GET["msg"] == 'failed-username') {
+                echo '<p class="message wrong">Username already exists!';
+                }
+
+                if (isset($_GET["msg"]) && $_GET["msg"] == 'failed-email') {
+                echo '<p class="message wrong">Email already exists!';
+                }
+              ?>
             </form>
         </div>
 	</main>

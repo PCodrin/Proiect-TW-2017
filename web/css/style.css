@@ -308,7 +308,8 @@ footer a:hover{
 /* Styles */
 	main{
 		width: 100%;
-		margin-top: 27%;
+		margin-top: 18%;
+		min-height: auto;
 	}
 	
 	header{
@@ -390,7 +391,7 @@ footer a:hover{
 
 	main{
 		width: 100%;
-		margin-top: 18%;
+		margin-top: 14%;
 	}
 	
 	header{
@@ -403,11 +404,7 @@ footer a:hover{
 		width: 30%;
 		height: 30%;
 	}
-	
-	.form{
-		margin: 0 auto;
-	}
-	
+
 	.form.home{
 		float: right;
 		max-width: 75%;
@@ -440,7 +437,6 @@ footer a:hover{
 /* Styles */
 	main{
 		width: 100%;
-		margin-top: 20%;
 	}
 	
 	header{
@@ -455,7 +451,7 @@ footer a:hover{
 	}
 	
 	.form{
-		margin: 0 auto;
+		margin-top: 12%;
 	}
 	
 	.form.home{
@@ -497,7 +493,6 @@ footer a:hover{
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2)  and (orientation: portrait)  {
 main{
 		width: 100%;
-		margin-top: 20%;
 	}
 	
 	header{
@@ -512,7 +507,7 @@ main{
 	}
 	
 	.form{
-		margin: 0 auto;
+		margin-top: 18%;
 	}
 	
 	.form.home{
@@ -634,7 +629,7 @@ nav{
 /* Styles */
 	main{
 		width: 100%;
-		margin-top: 31%;
+		
 	}
 	
 	header{
@@ -671,7 +666,7 @@ nav{
 /* Styles */
 	main{
 		width: 100%;
-		margin-top: 21%;
+		margin-top: 15%;
 	}
 	
 	header{
@@ -722,7 +717,7 @@ nav{
 /* Styles */
 	main{
 		width: 100%;
-		margin-top: 28%;
+		margin-top: 19%;
 	}
 	
 	header{
@@ -759,6 +754,7 @@ nav{
 		width: 75%;
 		margin-top: 125px;
 	}
+}
 
 /* iPhone 6+ ----------- */
 @media only screen and (min-device-width: 736px) and (max-device-height: 414px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){
@@ -807,14 +803,13 @@ nav{
 /* Styles */
 	main{
 		width: 100%;
-		margin-top: 18%;
+		margin-top: 15%;
 	}
 	
 	header{
 		min-width: 100%;
 		left: 0;
 		margin-left: 0;
-		height: 65px;
 	}
 
 	.logo img{
@@ -855,14 +850,13 @@ nav{
 /* Styles */
 	main{
 		width: 100%;
-		margin-top: 23%;
+		margin-top: 29%;
 	}
 	
 	header{
 		min-width: 100%;
 		left: 0;
 		margin-left: 0;
-		height: 65px;
 	}
 
 	.logo img{
@@ -880,6 +874,10 @@ nav{
 		margin: 0;
 	}
 	
+	.arrow-left, .arrow-right{
+		bottom: 5%;
+	}
+
 	.objects{
 		width: 100%;
 	}

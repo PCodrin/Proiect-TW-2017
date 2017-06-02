@@ -1,3 +1,12 @@
+<?php
+	session_start();
+	if(!isset($_SESSION['id']))
+	{
+		header('location:../index.php');
+    	exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +27,7 @@
 				<li><a href="home.php">Home</a></div></li>
 				<li><a href="objects.php">Objects</a></div></li>
 				<li><a href="profile.php">Profile</a></div></li>
-				<li><a href="index.php">Logout</a></div></li>
+				<li><a href="logout.php">Logout</a></div></li>
 			</ul>
         </nav>
 
