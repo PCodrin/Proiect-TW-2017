@@ -22,7 +22,7 @@
               <input type="text" name="register-user" placeholder="username" required/>
               <input type="text" name="firstname" placeholder="first name" required/>
               <input type="text" name="lastname" placeholder="last name" required/>
-              <input type="text" name="email" placeholder="email address" required/>
+              <input type="email" name="email" placeholder="email address" required/>
               <input type="password" name="password" placeholder="password" required/>
               <button type="submit" name="register-bt">register</button>
               <p class="message">Already registered? <a href="#">Sign In</a></p>
