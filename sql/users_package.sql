@@ -73,9 +73,7 @@ CREATE OR REPLACE PACKAGE BODY users_tw IS
                       (v_id,v_username,v_password,v_firstname,v_lastname,v_e_mail,v_creation_date);
                 END IF;
              END IF;
-             
-             
-             
+                  
         END register_user;
         
      /*   --DELETE USER

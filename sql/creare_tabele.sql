@@ -23,7 +23,6 @@ CREATE TABLE Users
   id number primary key NOT NULL,
   user_id number,
   name varchar(255) NOT NULL,
-  private number default 1,
   creation_date date
   );
   
@@ -33,7 +32,7 @@ CREATE TABLE Users
   closet_id integer,
   name varchar(255) not null,
   locked number default 0,
-  password varchar(255),
+  password varchar(20),
   creation_date date
   );
   
