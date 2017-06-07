@@ -6,6 +6,8 @@ DROP TABLE DRAWERS
 CASCADE CONSTRAINTS PURGE;
 DROP TABLE OBJECTS
 CASCADE CONSTRAINTS PURGE;
+DROP TABLE PROPERTIES
+CASCADE CONSTRAINTS PURGE;
 
 CREATE TABLE Users
     (
@@ -38,20 +40,24 @@ CREATE TABLE Users
   
   CREATE TABLE OBJECTS(
   id number primary key not null,
-  drawer_id number,
-  color varchar(30),
-  material varchar(30),
-  price number,
-  sentimental_value number,
-  added_date date not null,
-  type varchar(255) not null,
-  note varchar(255)
+  drawer_id number NOT NULL,
+  name varchar(255) not null,
+  added_date date,
+  creation_date date
+  );
+  
+  CREATE TABLE PROPERTIES(
+  id number primary key not null,
+  object_id number NOT NULL,
+  property_name varchar(255) not null,
+  property_value varchar(255) not null
   );
   
   
      alter table Closets add CONSTRAINT fk_User FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
      alter table Drawers add CONSTRAINT fk_Closet FOREIGN KEY (closet_id) REFERENCES Closets(id) ON DELETE CASCADE;
      alter table Objects add CONSTRAINT fk_Drawer FOREIGN KEY (drawer_id) REFERENCES Drawers(id) ON DELETE CASCADE;
+     alter table Properties add CONSTRAINT fk_Object FOREIGN KEY (object_id) REFERENCES Objects(id) ON DELETE CASCADE;
       
       
       
