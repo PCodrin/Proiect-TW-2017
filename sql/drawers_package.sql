@@ -104,7 +104,7 @@ set serveroutput on;
 DECLARE
 v_output integer:=0;
 BEGIN
-     drawers_package.create_drawer(1,'sertar4',1,'0000', v_output);
+     drawers_package.create_drawer(2,'sertar4',1,'0000', v_output);
      if(v_output=-1)THEN
      dbms_output.put_line('GRESIT');
      else 

@@ -21,7 +21,7 @@ CREATE TABLE Users
   CREATE TABLE CLOSETS
   (
   id number primary key NOT NULL,
-  user_id number,
+  user_id number NOT NULL,
   name varchar(255) NOT NULL,
   creation_date date
   );
@@ -29,7 +29,7 @@ CREATE TABLE Users
 
   CREATE TABLE DRAWERS(
   id number primary key not null,
-  closet_id integer,
+  closet_id integer  NOT NULL,
   name varchar(255) not null,
   locked number default 0,
   password varchar(20),
@@ -53,3 +53,13 @@ CREATE TABLE Users
      alter table Drawers add CONSTRAINT fk_Closet FOREIGN KEY (closet_id) REFERENCES Closets(id) ON DELETE CASCADE;
      alter table Objects add CONSTRAINT fk_Drawer FOREIGN KEY (drawer_id) REFERENCES Drawers(id) ON DELETE CASCADE;
       
+      
+      
+      
+select * from (select id,name,rownum as row_number from users) where row_number=3
+          row_number=3 o sa fie dulapul 3
+
+
+
+
+
