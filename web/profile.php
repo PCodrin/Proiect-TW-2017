@@ -23,13 +23,13 @@
 <body>
 	
 	<header>
-		<div class="logo"><a href="index.php"><img src="images/logo.png" alt="Logo"></a></div>
+		<div class="logo"><a href="home.php"><img src="images/logo.png" alt="Logo"></a></div>
 		<nav>
 			<ul>
 				<li><a href="home.php">Home</a></div></li>
 				<li><a href="objects.php">Objects</a></div></li>
 				<li><a href="profile.php">Profile</a></div></li>
-				<li><a href="index.php">Logout</a></div></li>
+				<li><a href="logout.php">Logout</a></div></li>
 			</ul>
         </nav>
 

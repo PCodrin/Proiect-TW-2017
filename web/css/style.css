@@ -14,6 +14,10 @@ button a{
 	color: #FFFFFF;
 }
 
+.button-home{
+	display: none;
+}
+
 header{
 	z-index: 1;
 	box-sizing: border-box;
@@ -46,6 +50,14 @@ table, th, td {
     border-collapse: collapse;
     padding: 7%;
     text-align: center;
+}
+
+.form .home label{
+	float: left;
+}
+
+.passwords{
+	display: none;
 }
 
 .arrow-left{
