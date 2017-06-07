@@ -9,7 +9,7 @@ html, body{
   box-sizing: inherit;
 }
 
-button a{
+button a, td a{
 	text-decoration: none;
 	color: #FFFFFF;
 }
@@ -39,10 +39,12 @@ table{
 	height: 50%;
 	width: 30%;
 	background: #685642;
+	text-decoration: none;
 }
 
 th, td{
-	box-shadow: 10px 10px 50px ;
+	box-shadow: 10px 10px 50px black;
+	color: white;
 }
 
 table, th, td {
@@ -50,6 +52,12 @@ table, th, td {
     border-collapse: collapse;
     padding: 7%;
     text-align: center;
+    
+}
+
+.box{
+	width: 15%;
+	margin: auto;
 }
 
 .form .home label{

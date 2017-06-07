@@ -13,8 +13,6 @@
     else
     	$page=1;
 
-    echo $page;
-
      // SELECT
 
     $sql = 'SELECT count(id) FROM closets WHERE user_id = '.$_SESSION['id'];
@@ -23,11 +21,6 @@
 
 	while (oci_fetch($stid))
     	$count_id_closets = oci_result($stid, 'COUNT(ID)');
-
-    
-
-    //echo "Nr iduri ".$closet_id;
-	
 
     // CREATE CLOSET
 
@@ -69,9 +62,8 @@
     		$sql = 'SELECT * FROM (SELECT ID, ROWNUM AS ROW_NUMBER FROM CLOSETS WHERE USER_ID='.$_SESSION['id'].'ORDER BY ID) WHERE ROW_NUMBER = '.$page;
 			$stid = oci_parse($conn, $sql);
 			oci_execute($stid);
-
-				while (oci_fetch($stid))
-    			  	$id = oci_result($stid, 'ID');
+			while (oci_fetch($stid))
+    			$id = oci_result($stid, 'ID');
     			 
     		$closet_name=$_POST['closet-name'];
     		$sql = 'BEGIN closets_package.edit_closet(:v_id, :v_closet_name, :v_output); END;';
@@ -80,8 +72,6 @@
 		    oci_bind_by_name($stmt,":v_closet_name",$closet_name,32);
 		    oci_bind_by_name($stmt,":v_output",$closet_success,32);
 		    oci_execute($stmt);
-
-
     	}
 
     	
@@ -108,13 +98,21 @@
 		oci_bind_by_name($stmt,":v_id",$id,32);
 		oci_execute($stmt);
 		}
+
+		$sql = 'SELECT count(id) FROM closets WHERE user_id = '.$_SESSION['id'];
+		$stid = oci_parse($conn, $sql);
+		oci_execute($stid);
+
+		while (oci_fetch($stid))
+	    	$count_id_closets = oci_result($stid, 'COUNT(ID)');
 	}
 
 	// CREATE DRAWER
 	
     if (isset($_POST['create-drawer'])) {
     	if(isset($_POST['drawer-name']))
-    	{
+    	{	
+    		$page=$page-1;
     		$sql = 'SELECT * FROM (SELECT ID, ROWNUM AS ROW_NUMBER FROM CLOSETS WHERE USER_ID='.$_SESSION['id'].'ORDER BY ID) WHERE ROW_NUMBER = '.$page;
 			$stid = oci_parse($conn, $sql);
 			oci_execute($stid);
@@ -136,7 +134,7 @@
 	    			if($password==$re_password)
 	    				oci_bind_by_name($stmt,":v_password",$password,32);
 	    			else
-	    				header('Location: home.php?page='.$page.'?msg=wrong-repassword');
+	    				header('Location:home.php?msg=wrong-repassword');
 	    		}
     		}
     		else
@@ -145,7 +143,7 @@
     			oci_bind_by_name($stmt,":v_password",$password,32);
     		}
 
-    		echo $closet_id;
+    		
     		oci_bind_by_name($stmt,":v_locked",$locked,32);
     		
     		oci_bind_by_name($stmt,":v_output",$drawer_success,32);
@@ -158,31 +156,6 @@
 		}
     }
     
-
-    if (isset($_POST['edit-drawer']))
-    {
-    	if(isset($_POST['drawer-name']))
-    	{
-    		$id=$_SESSION['id'];
-    		$drawer_name=$_POST['drawer-name'];
-    		$sql = 'BEGIN drawers_package.edit_closet(:v_id, :v_drawer_name, :v_output); END;';
-    		$stmt = oci_parse($conn,$sql);
-		    oci_bind_by_name($stmt,":v_id",$id,32);
-		    oci_bind_by_name($stmt,":v_drawer_name",$drawer_name,32);
-		    oci_bind_by_name($stmt,":v_output",$drawer_success,32);
-		    oci_execute($stmt);
-    	}
-    	
-	    if ($drawer_success>0)
-	        header('Location:home.php?page='.$count_id_closets);
-	    else
-	        header('LOCATION:home.php?msg=failed-name');
-    }
-    echo "<br>";
-    echo " | Count id closets " .$count_id_closets;
-    echo "<br>";
-    echo " | Session page " .$page;
-
 ?>
 
 <!DOCTYPE html>
@@ -208,7 +181,7 @@
 <body>
 	
 	<header>
-		<div class="logo"><a href="#"><img src="images/logo.png" alt="Logo"></a></div>
+		<div class="logo"><a href="home.php"><img src="images/logo.png" alt="Logo"></a></div>
 		<nav>
 			<ul>
 				<li><a href="home.php">Home</a></div></li>
@@ -245,57 +218,75 @@
             ?>
 		</form>
 		 <?php 
-		 	if(isset($_GET['page'])) 
+		 	if($count_id_closets>0)
 		 	{
-		 		if($_GET['page']<2)
-	        		header('Location:home.php');
-		 		if($page==2) 
-		 		{	
-		 			$page=$_GET["page"]-1;
-		 			echo '<a href="home.php">';
-		 		}
-		 		else 
-		 		{	
-		 			$page=$_GET["page"]-1; 
-		 			echo '<a href="home.php?page='.$page.'">'; 
-		 		}
-		 	}
-		 	else
-		 		echo '<a href="home.php">';
+			 	if(isset($_GET['page'])) 
+			 	{
+			 		$page_closet=$page;
+			 		if($_GET['page']<2)
+		        		header('Location:home.php');
+			 		if($page==2) 
+			 		{	
+			 			$page=$_GET["page"]-1;
+			 			echo '<a href="home.php">';
+			 		}
+			 		else 
+			 		{	
+			 			$page=$_GET["page"]-1; 
+			 			echo '<a href="home.php?page='.$page.'">'; 
+			 		}
+			 	}
+			 	else
+			 	{
+			 		$page_closet=1;
+			 		echo '<a href="home.php">';
+			 	}
+			 	echo '<img class="arrow-left" src="images/arrow-left.png" alt="Arrow left"></a>';
+			
+			
+		 
 
-		 ?> 
-
-		 		<img class="arrow-left" src="images/arrow-left.png" alt="Arrow left"></a>
+		 		
 		 	
-	        <table>
-			  <tr>
-			    <th colspan="4"></th>
-			  </tr>
-			  <tr>
-			    <td></td>
-			    <td></td>
-			    
-			  </tr>
-			  <tr>
-			    <td></td>
-			    <td></td>
-			  </tr>
-			  <tr>
-			    <td></td>
-			    <td></td>  
-			  </tr>
-			  <tr>
-			    <td></td>
-			    <td></td>
-			  </tr>
-			   <tr>
-			    <td></td>
-			    <td></td>
-			  </tr>
-			</table>
+		 		$sql = 'SELECT * FROM (SELECT ID, ROWNUM AS ROW_NUMBER FROM CLOSETS WHERE USER_ID='.$_SESSION['id'].'ORDER BY ID) WHERE ROW_NUMBER = '.$page_closet;
+				$stid = oci_parse($conn, $sql);
+				oci_execute($stid);
+				while (oci_fetch($stid))
+	    			$closet_id = oci_result($stid, 'ID');
 
+	    		$sql = 'SELECT name FROM CLOSETS WHERE ID='.$closet_id;
+	    		$stid = oci_parse($conn, $sql);
+	    		oci_execute($stid);
+	    		while (oci_fetch($stid))
+	    			$closet_name = oci_result($stid, 'NAME');
+		        echo '<table>
+				  <tr>
+				    <th colspan="4">'.$closet_name.'</th>
+				  </tr>';
+				  $stid = oci_parse($conn, 'SELECT name FROM drawers where closet_id='.$closet_id);
+				  oci_execute($stid);
+				  $i=1;
+				  $_SESSION['closet-id']=$closet_id;
+				  while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
+					  if($i%2==1)
+					  	echo '<tr><td><a href="drawers.php?drawer-name='.$row[0].'">'.$row[0].'</a></td>';
+					  else
+					  echo '<td><a href="drawers.php?drawer-name='.$row[0].'">'.$row[0].'</a></td></tr>';
+					  $i++;
+				  }
+
+				  for($k=$i; $k<=10; $k++)
+				  {
+				  	if($k%2==1)
+					  	echo '<tr><td></td>';
+					  else
+					  echo '<td></td></tr>';
+				  }
+
+				echo '</table>';
+			
 		
-        <?php 
+        
 	        	if(isset($_GET['page'])) 
 	        	{	
 	        		if($_GET['page']>$count_id_closets)
@@ -310,43 +301,36 @@
 	        				echo '<a href="home.php?page='.$page.'">';
 	        	} 
 	        	else 
-	        			if($count_id_closets==1)
+	        			if($count_id_closets==0)
 							echo '<a href="home.php">';
 						else
 						{
-			        		$page=2;
-		        			echo '<a href="home.php?page='.$page.'">';	
+		        			$page=2;
+		        			echo '<a href="home.php?page='.$page.'">';
 	        			}
+	        	echo '<img class="arrow-right" src="images/arrow-right.png" alt="Arrow right"></a>';
+	        	echo '<form class="form home" ';
+	        	 if($page==1) 
+	        	 	echo 'action="home.php"'; 
+	        	 else echo 'action="home.php?page='.$page.'"'; 
+	        	 echo 'method="post">
+						<button type="submit" name="create-drawer">Create</button>
+						<input type="text" name="drawer-name" placeholder="Drawer Name">
+						
+						<label for="checkbox">Locked?</label>
+						<input type="checkbox" placeholder="PIN" class="chkpass" name="chkpass"/>
+						<div class="passwords">
+							<input type="text" placeholder="Password" class="password" name="password"/>
+					   		<input type="text" placeholder="Re-Password" class="re-password" name="re-password"/>
+					   	</div>
+
+					</form>';
+	        }
         ?>
 
-        <img class="arrow-right" src="images/arrow-right.png" alt="Arrow right"></a></button>
+        
 		
-		<form class="form home" <?php if($page==1) echo 'action="home.php"'; else echo 'action="home.php?page='.$page.'"'; ?> method="post">
-			<button type="submit" name="create-drawer">Create</button>
-				 <select name="drawers" form="drawer-form">
-					  <option value="drawer1">Drawer 1</option>
-					  <option value="drawer2">Drawer 2</option>
-					  <option value="drawer3">Drawer 3</option>
-					  <option value="drawer4">Drawer 4</option>
-					  <option value="drawer5">Drawer 5</option>
-					  <option value="drawer6">Drawer 6</option>
-					  <option value="drawer7">Drawer 7</option>
-					  <option value="drawer8">Drawer 8</option>
-					  <option value="drawer9">Drawer 9</option>
-					  <option value="drawer10">Drawer 10</option>
-				</select>
-			<input type="text" name="drawer-name" placeholder="Drawer Name">
-			
-			<label for="checkbox">Locked?</label>
-			<input type="checkbox" placeholder="PIN" class="chkpass" name="chkpass"/>
-			<div class="passwords">
-				<input type="text" placeholder="Password" class="password" name="password"/>
-		   		<input type="text" placeholder="Re-Password" class="re-password" name="re-password"/>
-		   	</div>
-
-	   		<button type="submit" name="edit-drawer">Edit</button>
-			<button type="submit" name="delete-drawer">Delete</button>
-		</form>
+		
 
 	</main>
 
