@@ -2,7 +2,10 @@ DROP PACKAGE drawers_package;
  CREATE OR REPLACE PACKAGE drawers_package IS
         PROCEDURE create_drawer(v_closet_id DRAWERS.CLOSET_ID%TYPE, v_drawer_name CLOSETS.NAME%TYPE,v_locked DRAWERS.LOCKED%TYPE,v_password DRAWERS.PASSWORD%TYPE, v_output out integer );
         PROCEDURE edit_drawer_name(v_drawer_id DRAWERS.ID%TYPE,v_drawer_name DRAWERS.NAME%TYPE,v_output out integer);    
-        PROCEDURE edit_drawer_password(v_drawer_id DRAWERS.ID%TYPE,v_new_password DRAWERS.PASSWORD%TYPE,v_old_password DRAWERS.PASSWORD%TYPE,v_output out integer);    
+        PROCEDURE edit_drawer_password(v_drawer_id DRAWERS.ID%TYPE,v_new_password DRAWERS.PASSWORD%TYPE,v_old_password DRAWERS.PASSWORD%TYPE,v_output out integer);
+        PROCEDURE make_drawer_locked(v_drawer_id DRAWERS.ID%TYPE,v_password DRAWERS.PASSWORD%TYPE);
+        PROCEDURE make_drawer_unlocked(v_drawer_id DRAWERS.ID%TYPE,v_password DRAWERS.PASSWORD%TYPE,v_output out integer);
+        PROCEDURE delete_drawer(v_drawer_id DRAWERS.ID%TYPE);
  END drawers_package;   
       
 DROP PACKAGE BODY drawers_package;
@@ -113,8 +116,49 @@ CREATE OR REPLACE PACKAGE BODY drawers_package IS
                   v_output:=-1;
               END IF;
          END edit_drawer_password;
- 
-                              
+         
+         --MAKE_DRAWER_LOCKED
+         
+         PROCEDURE make_drawer_locked(v_drawer_id DRAWERS.ID%TYPE,v_password DRAWERS.PASSWORD%TYPE)
+         AS
+        
+         BEGIN
+              UPDATE DRAWERS
+                  SET password=v_password,
+                      locked=1
+                  WHERE id=v_drawer_id;
+         END make_drawer_locked;
+         
+          --MAKE_DRAWER_UNLOCKED
+         
+         PROCEDURE make_drawer_unlocked(v_drawer_id DRAWERS.ID%TYPE,v_password DRAWERS.PASSWORD%TYPE,v_output out integer)
+         AS
+         v_password_drawer DRAWERS.PASSWORD%TYPE;
+         BEGIN
+              select password into v_password_drawer from drawers where id=v_drawer_id;
+              IF(v_password_drawer LIKE v_password)THEN
+                  v_output:=0;
+                  UPDATE DRAWERS
+                  SET password=NULL,
+                      locked=0
+                  WHERE id=v_drawer_id;
+              ELSE
+                  v_output:=-1;
+              END IF;
+         END make_drawer_unlocked;
+         
+         --DELETE DRAWER
+        PROCEDURE delete_drawer(v_drawer_id DRAWERS.ID%TYPE)
+        AS
+        BEGIN
+              
+              DELETE FROM DRAWERS
+              WHERE v_drawer_id=id;
+                
+        END delete_drawer;
+         
+         
+                                    
 END drawers_package;
 
 
@@ -139,7 +183,7 @@ set serveroutput on;
 DECLARE
 v_output integer:=0;
 BEGIN
-     drawers_package.edit_drawer_name(7,'EDIT 1 Plsql1',v_output);
+     drawers_package.delete_drawer(11);
      if(v_output=-1)THEN
      dbms_output.put_line('GRESIT');
      else 
@@ -149,18 +193,6 @@ BEGIN
 
 END;
 
-set serveroutput on;
-DECLARE
-v_output integer:=0;
-BEGIN
-     drawers_package.edit_drawer_password(11,'EDIT 1 Plsql1','',v_output);
-     if(v_output=-1)THEN
-     dbms_output.put_line('GRESIT');
-     else 
-          dbms_output.put_line('OK');
-          
-    END if;
 
-END;
 
 
