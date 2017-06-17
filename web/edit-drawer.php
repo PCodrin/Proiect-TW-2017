@@ -9,6 +9,13 @@
     	exit;
     }
 
+    if(isset($_POST['search']))
+    	if(isset($_POST['search-text']))
+    	{
+    		$_SESSION['search']=$_POST['search-text'];
+    		header('Location: search.php');
+    	}
+
     $stid = oci_parse($conn,'SELECT locked FROM DRAWERS WHERE ID='.$_SESSION['drawer-id']);
     oci_execute($stid);
 	while (oci_fetch($stid))
@@ -116,10 +123,10 @@
 
 	<main>
 		<div class="search">
-		<form>
-			<input type="text" name="search" placeholder="Search..">
-			<button type="submit" name="submit"><a href="advanced-search.php">Advanced Search</a></button>
-		</form>
+			<form method="post" action="">
+				<input type="text" name="search-text" placeholder="Search.." required>
+				<button type="submit" name="search">Search</button>
+			</form>
 		</div>
 
 		<form class="form-drawers" action="" method="post">

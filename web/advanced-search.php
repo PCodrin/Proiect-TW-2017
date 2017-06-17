@@ -7,6 +7,13 @@
 		header('location:../index.php');
     	exit;
     }
+
+    if(isset($_POST['search']))
+    	if(isset($_POST['search-text']))
+    	{
+    		$_SESSION['search']=$_POST['search-text'];
+    		header('Location: search.php');
+    	}
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +34,7 @@
 		<nav>
 			<ul>
 				<li><a href="home.php">Home</a></div></li>
-				<li><a href="advanced-search.php">Search</a></div></li>
+				<li><a href="advanced-search.php">Advanced Search</a></div></li>
 				<li><a href="profile.php">Profile</a></div></li>
 				<li><a href="index.php">Logout</a></div></li>
 			</ul>
@@ -36,9 +43,15 @@
 	</header>
 
 	<main>
+
+		<div class="search">
+			<form method="post" action="">
+				<input type="text" name="search-text" placeholder="Search.." required>
+				<button type="submit" name="search">Search</button>
+			</form>
+		</div>
 		
 		<form class="form advanced">
-		
 		
 			<h1>Filter:</h1>	
 			<p>Closets</p>

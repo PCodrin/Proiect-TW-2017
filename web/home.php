@@ -8,6 +8,13 @@
     	exit;
     }
 
+    if(isset($_POST['search']))
+    	if(isset($_POST['search-text']))
+    	{
+    		$_SESSION['search']=$_POST['search-text'];
+    		header('Location: search.php');
+    	}
+
     if(isset($_GET["page"]))
     	$page=$_GET["page"];
     else
@@ -196,8 +203,10 @@
 
 	<main>
 		<div class="search">
-			<input type="text" name="search" placeholder="Search..">
-			<button type="submit" name="submit"><a href="advanced-search.php">Search</a></button>
+			<form method="post" action="">
+				<input type="text" name="search-text" placeholder="Search.." required>
+				<button type="submit" name="search">Search</button>
+			</form>
 		</div>
 
 		<form class="form home" <?php if($page==1) echo 'action="home.php"'; else echo 'action="home.php?page='.$page.'"'; ?> method="post">
@@ -328,12 +337,14 @@
 						<label for="checkbox">Locked?</label>
 						<input type="checkbox" placeholder="PIN" class="chkpass" name="chkpass"/>
 						<div class="passwords">
-							<input type="text" placeholder="Password" class="password" name="password"/>
-					   		<input type="text" placeholder="Re-Password" class="re-password" name="re-password"/>
+							<input type="password" placeholder="Password" class="password" name="password"/>
+					   		<input type="password" placeholder="Re-Password" class="re-password" name="re-password"/>
 					   	</div>
 
 					</form>';
 	        }
+	        else
+	        	echo '<img class="box" src="images/box.png" alt="Empty Box">';
         ?>
 
         <div class="home form pass">

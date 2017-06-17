@@ -9,6 +9,13 @@
     	exit;
     }
 
+    if(isset($_POST['search']))
+    	if(isset($_POST['search-text']))
+    	{
+    		$_SESSION['search']=$_POST['search-text'];
+    		header('Location: search.php');
+    	}
+
     $stid = oci_parse($conn, 'SELECT u.id FROM users u JOIN closets c on u.id=c.user_id JOIN drawers d on c.id=d.closet_id JOIN objects o on d.id=o.drawer_id WHERE o.id='.$_GET['object-id']);
 	oci_execute($stid);
 	while (oci_fetch($stid))
@@ -75,6 +82,14 @@
 		oci_execute($stmt);
     }
 
+    if (isset($_POST['move-object'])){	
+    	$sql = 'BEGIN objects_package.move_object(:v_object_id, :v_drawer_id); END;';
+    	$stmt = oci_parse($conn,$sql);
+		oci_bind_by_name($stmt,":v_object_id",$_GET['object-id'],32);
+		oci_bind_by_name($stmt,":v_drawer_id",$_POST['property4'],32);
+		oci_execute($stmt);
+    }
+
     if (isset($_POST['delete-object'])){	
     	$sql = 'BEGIN objects_package.delete_object(:v_object_id); END;';
     	$stmt = oci_parse($conn,$sql);
@@ -103,7 +118,7 @@
 		<nav>
 			<ul>
 				<li><a href="home.php">Home</a></div></li>
-				<li><a href="advanced-search.php">Search</a></div></li>
+				<li><a href="advanced-search.php">Advanced Search</a></div></li>
 				<li><a href="profile.php">Profile</a></div></li>
 				<li><a href="logout.php">Logout</a></div></li>
 			</ul>
@@ -113,10 +128,10 @@
 
 	<main>
 		<div class="search">
-		<form>
-			<input type="text" name="search" placeholder="Search..">
-			<button type="submit" name="submit"><a href="advanced-search.php">Search</a></button>
-		</form>
+			<form method="post" action="">
+				<input type="text" name="search-text" placeholder="Search.." required>
+				<button type="submit" name="search">Search</button>
+			</form>
 		</div>
 		
 		<form class="form-drawers" action="" method="post">
@@ -187,6 +202,22 @@
 					oci_execute($stid);
 
 					echo '<select name="property3" class="delete-object-select">';
+					while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
+						echo '<option value="'.$row[2].'">'.$row[0].': '.$row[1].'</option>';
+					}
+					echo '</select>';
+				
+				?>
+			</form>
+
+			<form class="form home" action="" method="post">
+				<button type="submit" name="move-object">Move Object</button>
+				<?php
+
+					$stid = oci_parse($conn, 'SELECT c.name, d.name, d.id FROM closets c JOIN drawers d on c.id=d.closet_id WHERE c.user_id='.$_SESSION['id'].' AND d.id NOT LIKE '.$_SESSION['drawer-id']);
+					oci_execute($stid);
+
+					echo '<select name="property4" class="delete-object-select">';
 					while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
 						echo '<option value="'.$row[2].'">'.$row[0].': '.$row[1].'</option>';
 					}

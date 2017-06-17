@@ -8,6 +8,13 @@
     	exit;
     }
 
+    if(isset($_POST['search']))
+    	if(isset($_POST['search-text']))
+    	{
+    		$_SESSION['search']=$_POST['search-text'];
+    		header('Location: search.php');
+    	}
+
     $user_id=$_SESSION['id'];
     
     $sql = 'SELECT username , firstname, lastname, e_mail  FROM users WHERE id = '.$user_id;
@@ -138,11 +145,12 @@
 
 	<main>
 		<div class="search">
-		<form>
-			<input type="text" name="search" placeholder="Search..">
-			<button type="submit" name="submit"><a href="advanced-search.php">Search</a></button>
-		</form>
+			<form method="post" action="">
+				<input type="text" name="search-text" placeholder="Search.." required>
+				<button type="submit" name="search">Search</button>
+			</form>
 		</div>
+		
 		<div class="profile">
 			<?php echo ' <p>Username: '.$v_username.' </p>
 			<p>Firstname: '.$v_firstname.' </p>

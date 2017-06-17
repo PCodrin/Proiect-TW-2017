@@ -9,6 +9,13 @@
     	exit;
     }
 
+  if(isset($_POST['search']))
+    	if(isset($_POST['search-text']))
+    	{
+    		$_SESSION['search']=$_POST['search-text'];
+    		header('Location: search.php');
+    	}
+
   	$_SESSION['drawer-name']=$_GET['drawer-name'];
   	
     $stid = oci_parse($conn, "SELECT ID FROM DRAWERS WHERE CLOSET_ID=".$_SESSION['closet-id']." AND NAME='".$_SESSION['drawer-name']."'");
@@ -53,13 +60,24 @@
 	
 	<header>
 		<div class="logo"><a href="home.php"><img src="images/logo.png" alt="Logo"></a></div>
+		<nav>
+			<ul>
+				<li><a href="home.php">Home</a></div></li>
+				<li><a href="advanced-search.php">Advanced Search</a></div></li>
+				<li><a href="profile.php">Profile</a></div></li>
+				<li><a href="logout.php">Logout</a></div></li>
+			</ul>
+        </nav>
 	</header>
 
 	<main>
 		<div class="search">
-			<input type="text" name="search" placeholder="Search..">
-			<button type="submit" name="submit"><a href="advanced-search.php">Search</a></button>
+			<form method="post" action="">
+				<input type="text" name="search-text" placeholder="Search.." required>
+				<button type="submit" name="search">Search</button>
+			</form>
 		</div>
+		
         <div class="form">
             <form class="drawer-locked" method="post" action="">
               <input type="password" name="password" placeholder="Drawer Password" required/>
