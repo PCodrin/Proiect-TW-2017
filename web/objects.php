@@ -27,7 +27,7 @@
 		<nav>
 			<ul>
 				<li><a href="home.php">Home</a></div></li>
-				<li><a href="objects.php">Objects</a></div></li>
+				<li><a href="advanced-search.php">Advanced Search</a></div></li>
 				<li><a href="profile.php">Profile</a></div></li>
 				<li><a href="logout.php">Logout</a></div></li>
 			</ul>
@@ -39,7 +39,7 @@
 		<div class="search">
 		<form>
 			<input type="text" name="search" placeholder="Search..">
-			<button type="submit" name="submit"><a href="advanced-search.php">Advanced Search</a></button>
+			<button type="submit" name="submit"><a href="advanced-search.php">Search</a></button>
 		</form>
 		</div>
 		<div class="objects">

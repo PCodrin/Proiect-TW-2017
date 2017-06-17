@@ -21,6 +21,13 @@
 
 	if(isset($_POST['create-object']))
 		header('Location: create-object.php?drawer-name='.$_SESSION['drawer-name']);
+
+	$sql = 'SELECT count(id) FROM objects WHERE drawer_id = '.$_SESSION['drawer-id'];
+	$stid = oci_parse($conn, $sql);
+	oci_execute($stid);
+
+	while (oci_fetch($stid))
+    	$count_id_objects = oci_result($stid, 'COUNT(ID)');
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +48,7 @@
 		<nav>
 			<ul>
 				<li><a href="home.php">Home</a></div></li>
-				<li><a href="objects.php">Objects</a></div></li>
+				<li><a href="advanced-search.php">Search</a></div></li>
 				<li><a href="profile.php">Profile</a></div></li>
 				<li><a href="logout.php">Logout</a></div></li>
 			</ul>
@@ -53,19 +60,47 @@
 		<div class="search">
 		<form>
 			<input type="text" name="search" placeholder="Search..">
-			<button type="submit" name="submit"><a href="advanced-search.php">Advanced Search</a></button>
+			<button type="submit" name="submit"><a href="advanced-search.php">Search</a></button>
 		</form>
 		</div>
 		
+		<form class="form-drawers" action="home.php" method="post">
+			<button type="submit" name="back">Go Back</button>
+		</form>
+
 		<form class="form home" action="" method="post">
 
 			<button name="edit-drawer">Edit Drawer</button>
 			<button name="create-object">Create Object</button>
 			
 		</form>
-
-		<img class="box" src="images/box.png" alt="Empty Box">
 		
+		<?php
+			
+			if($count_id_objects>0)
+			{
+				$stid = oci_parse($conn, 'SELECT id, name FROM objects WHERE drawer_id='.$_SESSION['drawer-id']);
+				oci_execute($stid);	 
+				while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
+					$stid2 = oci_parse($conn, 'SELECT property_name, property_value FROM properties WHERE object_id='.$row[0]);
+					oci_execute($stid2);	 
+					echo '
+					<form action="edit-object.php?object-id='.$row[0].'" class="form object" method="post">
+						<h1>'.$row[1].'</h1>
+						<div class="property">';
+						while (($row2 = oci_fetch_array($stid2, OCI_BOTH)) != false) {
+							echo  '<p>'.$row2[0].': '.$row2[1].'</p>';
+						}
+
+					echo '</div>
+							<button name="edit-object">Edit Object</button>
+						</form>';
+				}
+			}
+			else
+				echo '<img class="box" src="images/box.png" alt="Empty Box">';
+
+		?>
 	</main>
 
 	<footer>
