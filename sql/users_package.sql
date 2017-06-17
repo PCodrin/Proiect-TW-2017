@@ -2,9 +2,12 @@ DROP PACKAGE users_tw;
  CREATE OR REPLACE PACKAGE users_tw IS
         PROCEDURE login(v_username USERS.USERNAME%TYPE, v_password USERS.PASSWORD%TYPE, v_output out integer );
         PROCEDURE register_user(v_username USERS.USERNAME%TYPE, v_firstname USERS.FIRSTNAME%TYPE, v_lastname USERS.LASTNAME%TYPE, v_e_mail USERS.E_MAIL%TYPE, v_password USERS.PASSWORD%TYPE,v_output out number);
-        /*PROCEDURE delete_user(v_id USERS.ID%TYPE);
-        PROCEDURE update_user(v_id USERS.ID%TYPE, v_firstname  USERS.FIRSTNAME%TYPE, v_lastname  USERS.LASTNAME%TYPE, v_admin  USERS.ADMIN%TYPE);
-        */
+        PROCEDURE change_user_firstname(v_id USERS.ID%TYPE, v_firstname USERS.FIRSTNAME%TYPE);
+        PROCEDURE change_user_lastname(v_id USERS.ID%TYPE, v_lastname USERS.LASTNAME%TYPE);
+        PROCEDURE change_user_e_mail(v_id USERS.ID%TYPE, v_e_mail USERS.E_MAIL%TYPE);
+        PROCEDURE change_user_password(v_id USERS.ID%TYPE, v_new_password USERS.PASSWORD%TYPE,v_old_password USERS.PASSWORD%TYPE,v_output out integer);
+        PROCEDURE delete_user(v_id USERS.ID%TYPE);
+      
 END users_tw;   
       
 DROP PACKAGE BODY users_tw;
@@ -76,7 +79,61 @@ CREATE OR REPLACE PACKAGE BODY users_tw IS
                   
         END register_user;
         
-     /*   --DELETE USER
+        --CHANGE USER FIRSTNAME
+        
+        PROCEDURE change_user_firstname(v_id USERS.ID%TYPE, v_firstname USERS.FIRSTNAME%TYPE)
+        AS
+        
+        BEGIN
+            UPDATE USERS
+            SET firstname=v_firstname
+               WHERE id=v_id;
+        END change_user_firstname;
+        
+        --CHANGE USER LASTNAME
+        
+        PROCEDURE change_user_lastname(v_id USERS.ID%TYPE, v_lastname USERS.LASTNAME%TYPE)
+        AS
+        
+        BEGIN
+            UPDATE USERS
+            SET lastname=v_lastname
+               WHERE id=v_id;
+              
+        END change_user_lastname;
+        
+        --CHANGE USER E_MAIL
+        
+        PROCEDURE change_user_e_mail(v_id USERS.ID%TYPE, v_e_mail USERS.E_MAIL%TYPE)
+        AS
+        
+        BEGIN
+            UPDATE USERS
+            SET e_mail=v_e_mail
+               WHERE id=v_id;
+              
+        END change_user_e_mail;
+        
+        --CHANGE USER PASSWORD
+        
+        PROCEDURE change_user_password(v_id USERS.ID%TYPE, v_new_password USERS.PASSWORD%TYPE,v_old_password USERS.PASSWORD%TYPE,v_output out integer)
+        AS
+        v_password USERS.PASSWORD%TYPE;
+         BEGIN
+              v_output:=0;
+              SELECT password into v_password from users where id=v_id;
+              IF(v_password like v_old_password)THEN
+                  UPDATE USERS
+                  SET password=v_new_password
+                  WHERE id=v_id;
+              ELSE
+                  v_output:=-1;
+              END IF;
+              
+        END change_user_password;
+        
+        --DELETE USER
+        
         PROCEDURE delete_user(v_id USERS.ID%TYPE)
         AS
         
@@ -84,27 +141,28 @@ CREATE OR REPLACE PACKAGE BODY users_tw IS
               
               DELETE FROM USERS
               WHERE v_id=id;
-                
-         
+        
         END delete_user;
         
-        --UPDATE USER
         
-        PROCEDURE update_user(v_id USERS.ID%TYPE, v_firstname  USERS.FIRSTNAME%TYPE, v_lastname  USERS.LASTNAME%TYPE, v_admin  USERS.ADMIN%TYPE)
-        AS
-      
-        BEGIN
-             
-                    UPDATE USERS
-                    SET firstname= v_firstname,
-                        lastname = v_lastname,
-                           admin = v_admin
-                    WHERE id=v_id;
-              
-               
-        END update_user;
-        
-        */
             
 END users_tw;
 
+
+
+
+
+
+
+set serveroutput on;
+DECLARE
+
+BEGIN
+     users_tw.delete_user(3);
+    
+          
+
+
+END;
+
+select * from users;

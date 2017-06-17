@@ -36,9 +36,9 @@
 		    oci_bind_by_name($stmt,":v_output",$closet_success,32);
 		    oci_execute($stmt);
     	}
-    	 $sql = 'SELECT count(id) FROM closets WHERE user_id = '.$_SESSION['id'];
-		 $stid = oci_parse($conn, $sql);
-		 oci_execute($stid);
+    	$sql = 'SELECT count(id) FROM closets WHERE user_id = '.$_SESSION['id'];
+	    $stid = oci_parse($conn, $sql);
+		oci_execute($stid);
 
 	    while (oci_fetch($stid))
     	    $count_id_closets = oci_result($stid, 'COUNT(ID)');
@@ -264,15 +264,22 @@
 				  <tr>
 				    <th colspan="4">'.$closet_name.'</th>
 				  </tr>';
-				  $stid = oci_parse($conn, 'SELECT name FROM drawers where closet_id='.$closet_id);
+				  $stid = oci_parse($conn, 'SELECT name, locked FROM drawers where closet_id='.$closet_id);
 				  oci_execute($stid);
 				  $i=1;
 				  $_SESSION['closet-id']=$closet_id;
 				  while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
 					  if($i%2==1)
-					  	echo '<tr><td><a href="drawers.php?drawer-name='.$row[0].'">'.$row[0].'</a></td>';
+					  	if($row[1]==1)
+					  		echo '<tr><td><a href="drawer-locked.php?drawer-name='.$row[0].'">'.$row[0].'</a><img src="images/locked.png" alt="Locked"></td>';
+					  	else
+					  		echo '<tr><td><a href="drawers.php?drawer-name='.$row[0].'">'.$row[0].'</a></td>';
 					  else
-					  echo '<td><a href="drawers.php?drawer-name='.$row[0].'">'.$row[0].'</a></td></tr>';
+					  	if($row[1]==1)
+					  		echo '<td><a href="drawer-locked.php?drawer-name='.$row[0].'">'.$row[0].'</a><img src="images/locked.png" alt="Locked"></td></tr>';
+					  	else
+					  		echo '<td><a href="drawers.php?drawer-name='.$row[0].'">'.$row[0].'</a></td></tr>';
+
 					  $i++;
 				  }
 

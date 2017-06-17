@@ -2,27 +2,30 @@
 	require_once('connection.php');
 	
 	session_start();
+	
 	if(!isset($_SESSION['id']))
 	{
 		header('location:../index.php');
     	exit;
     }
+
+    if(isset($_POST['back']))
+	    header('Location:drawers.php?drawer-name='.$_SESSION['drawer-name']);
+
+	if (isset($_POST['create-object'])) {
+    	if(isset($_POST['object-name']) && isset($_POST['property-name']) && isset($_POST['property-value']))
+    	{
+    		$sql = 'BEGIN objects_package.create_object(:v_drawer_id, :v_object_name, :v_property_name, :v_property_value); END;';
+    		$stmt = oci_parse($conn,$sql);
+		    oci_bind_by_name($stmt,":v_drawer_id",$_SESSION['drawer-id'],32);
+		    oci_bind_by_name($stmt,":v_object_name",$_POST['object-name'],32);
+		    oci_bind_by_name($stmt,":v_property_name",$_POST['property-name'],32);
+		    oci_bind_by_name($stmt,":v_property_value",$_POST['property-value'],32);
+		    oci_execute($stmt);
+    	}
+   	}
     
-    $_SESSION['drawer-name']=$_GET['drawer-name'];
-
-    $stid = oci_parse($conn, "SELECT ID FROM DRAWERS WHERE CLOSET_ID=".$_SESSION['closet-id']." AND NAME='".$_SESSION['drawer-name']."'");
-	oci_execute($stid);
-	while (oci_fetch($stid))
-    	$drawer_id = oci_result($stid, 'ID');
-    $_SESSION['drawer-id']=$drawer_id;
-
-    if(isset($_POST['edit-drawer']))
-		header('Location: edit-drawer.php?drawer-name='.$_SESSION['drawer-name']);
-
-	if(isset($_POST['create-object']))
-		header('Location: create-object.php?drawer-name='.$_SESSION['drawer-name']);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,15 +59,18 @@
 			<button type="submit" name="submit"><a href="advanced-search.php">Advanced Search</a></button>
 		</form>
 		</div>
-		
-		<form class="form home" action="" method="post">
 
-			<button name="edit-drawer">Edit Drawer</button>
-			<button name="create-object">Create Object</button>
-			
+		<form class="form-drawers" action="" method="post">
+			<button type="submit" name="back">Go Back</button>
 		</form>
 
-		<img class="box" src="images/box.png" alt="Empty Box">
+		<form class="form home" action="" method="post">
+			
+			<button type="submit" name="create-object">Create Object</button>
+			<input type="text" name="object-name" placeholder="Object Name" required />
+			<input type="text" name="property-name" placeholder="Property" required />
+			<input type="text" name="property-value" placeholder="Property Value"required />
+		</form>
 		
 	</main>
 

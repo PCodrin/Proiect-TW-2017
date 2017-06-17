@@ -21,6 +21,37 @@ button a, td a{
 	display: none;
 }
 
+.form.object{
+	margin-top: 3%;
+}
+
+.form.object .property p, .form.object h1{
+	display: inherit;
+    box-shadow: initial;
+    padding: 0;
+}
+.form.object h1{
+	font-size: 25px;
+}
+
+.form.object p{
+	box-shadow: initial;
+	padding: 3%;
+	display: inline-block;
+	margin-bottom: 3%;
+}
+
+.form.object button{
+	max-width: 150px;
+	margin-top: 5%;
+}
+
+.property{
+	border: 1px solid black;
+	display: table;
+	padding: 5px;
+	margin: 0 auto;
+}
 
 header{
 	z-index: 1;

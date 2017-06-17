@@ -57,6 +57,10 @@
 		</form>
 		</div>
 		
+		<form class="form-drawers" action="home.php" method="post">
+			<button type="submit" name="back">Go Back</button>
+		</form>
+
 		<form class="form home" action="" method="post">
 
 			<button name="edit-drawer">Edit Drawer</button>
@@ -66,6 +70,17 @@
 
 		<img class="box" src="images/box.png" alt="Empty Box">
 		
+		<form class="form object">
+			<h1>Masina</h1>
+			<p>Test</p><p>Test2</p>
+			<div class="property">
+				<p>Culoare: Albastra</p>
+				<p>Material: Frumos</p>
+			</div>
+
+			<button name="edit-object">Edit Object</button>
+		</form>
+
 	</main>
 
 	<footer>

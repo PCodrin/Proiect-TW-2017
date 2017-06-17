@@ -106,7 +106,7 @@
 		<nav>
 			<ul>
 				<li><a href="home.php">Home</a></div></li>
-				<li><a href="objects.php">Objects</a></div></li>
+				<li><a href="advanced-search.php">Advanced Search</a></div></li>
 				<li><a href="profile.php">Profile</a></div></li>
 				<li><a href="logout.php">Logout</a></div></li>
 			</ul>
@@ -139,8 +139,8 @@
 				<form class="form home" action="" method="post">
 					
 					<button type="submit" name="make-locked">Make Locked</button>
-					<input type="text" name="password" placeholder="Password">
-					<input type="text" name="re-password" placeholder="Re-Password">
+					<input type="password" name="password" placeholder="Password">
+					<input type="password" name="re-password" placeholder="Re-Password">
 					
 					
 				</form>
@@ -150,16 +150,16 @@
 			<form class="form home" action="" method="post">
 				
 				<button type="submit" name="make-unlocked">Make Unlocked</button>
-				<input type="text" name="password" placeholder="Password">
+				<input type="password" name="password" placeholder="Password">
 				
 			</form>
 
 			<form class="form home" action="" method="post">
 				
 				<button type="submit" name="change-password">Change Password</button>
-				<input type="text" name="old-password" placeholder="Old Password">
-				<input type="text" name="password" placeholder="New Password">
-				<input type="text" name="re-password" placeholder="Re-Password">
+				<input type="password" name="old-password" placeholder="Old Password">
+				<input type="password" name="password" placeholder="New Password">
+				<input type="password" name="re-password" placeholder="Re-Password">
 				
 			</form>';
 		?>
