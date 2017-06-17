@@ -62,10 +62,5 @@ CREATE TABLE Users
       
       
       
-select * from (select id,name,rownum as row_number from users) where row_number=3
-          row_number=3 o sa fie dulapul 3
-
-
-
 
 

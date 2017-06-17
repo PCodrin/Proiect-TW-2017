@@ -74,17 +74,5 @@ CREATE OR REPLACE PACKAGE BODY objects_package IS
 END objects_package;
 
 
-set serveroutput on;
-DECLARE
-v_output integer:=0;
-BEGIN
-     objects_package.delete_object(1);
-     if(v_output=-1)THEN
-     dbms_output.put_line('GRESIT');
-     else 
-          dbms_output.put_line('OK');
-          
-    END if;
 
-END;
 

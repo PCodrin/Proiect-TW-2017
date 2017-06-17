@@ -165,34 +165,6 @@ END drawers_package;
 
 
 
-set serveroutput on;
-DECLARE
-v_output integer:=0;
-BEGIN
-     drawers_package.create_drawer(2,'sertar4',1,'0000', v_output);
-     if(v_output=-1)THEN
-     dbms_output.put_line('GRESIT');
-     else 
-          dbms_output.put_line('OK');
-          
-    END if;
-
-END;
-
-set serveroutput on;
-DECLARE
-v_output integer:=0;
-BEGIN
-     drawers_package.delete_drawer(11);
-     if(v_output=-1)THEN
-     dbms_output.put_line('GRESIT');
-     else 
-          dbms_output.put_line('OK');
-          
-    END if;
-
-END;
-
 
 
 

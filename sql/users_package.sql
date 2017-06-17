@@ -154,15 +154,6 @@ END users_tw;
 
 
 
-set serveroutput on;
-DECLARE
-
-BEGIN
-     users_tw.delete_user(3);
-    
-          
 
 
-END;
 
-select * from users;

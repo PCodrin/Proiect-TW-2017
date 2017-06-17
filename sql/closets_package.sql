@@ -98,12 +98,3 @@ CREATE OR REPLACE PACKAGE BODY closets_package IS
                               
 END closets_package;
 
-set serveroutput on;
-DECLARE
-
-BEGIN
-     closets_package.delete_closet(1);
-     
-
-
-END;

@@ -66,14 +66,3 @@ CREATE OR REPLACE PACKAGE BODY properties_package IS
 END properties_package;
 
 
-
-set serveroutput on;
-DECLARE
-
-BEGIN
-     properties_package.delete_property(1);
-    
-          
-
-
-END;
