@@ -11,6 +11,7 @@
     if(isset($_POST['search']))
     	if(isset($_POST['search-text']))
     	{
+    		$_SESSION['case']=0;
     		$_SESSION['search']=$_POST['search-text'];
     		header('Location: search.php');
     	}
@@ -54,11 +55,47 @@
 		
 		<?php
 
+		if(isset($_SESSION['search']) && $_SESSION['case']==0)
+		{
 			$stid = oci_parse($conn, "SELECT o.id, o.name, c.name, d.name, d.locked FROM users u 
 			JOIN closets c on u.id=c.user_id 
 			JOIN drawers d on c.id=d.closet_id 
 			JOIN objects o on d.id=o.drawer_id WHERE u.id=".$_SESSION['id']." AND (o.name like '%".$_SESSION['search']."%' or o.id in (select object_id from properties WHERE property_name like '%".$_SESSION['search']."%' or property_value like '%".$_SESSION['search']."%'))");
 		    oci_execute($stid);
+		}
+		elseif($_SESSION['case']==1)
+		{
+			$stid = oci_parse($conn, "SELECT o.id, o.name, c.name, d.name, d.locked FROM users u 
+			JOIN closets c on u.id=c.user_id 
+			JOIN drawers d on c.id=d.closet_id 
+			JOIN objects o on d.id=o.drawer_id WHERE u.id=".$_SESSION['id']." AND d.id=".$_SESSION['property']);
+		    oci_execute($stid);
+		}
+		elseif($_SESSION['case']==2)
+		{
+			$stid = oci_parse($conn, "SELECT o.id, o.name, c.name, d.name, d.locked FROM users u 
+			JOIN closets c on u.id=c.user_id 
+			JOIN drawers d on c.id=d.closet_id 
+			JOIN objects o on d.id=o.drawer_id WHERE u.id=".$_SESSION['id']." AND (o.name like '%".$_SESSION['advanced-search']."%' or o.id in (select object_id from properties WHERE property_name like '%".$_SESSION['advanced-search']."%' or property_value like '%".$_SESSION['advanced-search']."%')) AND d.id=".$_SESSION['property']);
+		    oci_execute($stid);
+		}
+		elseif($_SESSION['case']==3)
+		{
+			$stid = oci_parse($conn, "SELECT o.id, o.name, c.name, d.name, d.locked FROM users u 
+			JOIN closets c on u.id=c.user_id 
+			JOIN drawers d on c.id=d.closet_id 
+			JOIN objects o on d.id=o.drawer_id WHERE u.id=".$_SESSION['id']." AND d.id=".$_SESSION['property']." AND to_char(o.creation_date,'YYYY-MM-DD') LIKE '%".$_SESSION['date']."%'");
+		    oci_execute($stid);
+		}
+
+		elseif($_SESSION['case']==4)
+		{
+			$stid = oci_parse($conn, "SELECT o.id, o.name, c.name, d.name, d.locked FROM users u 
+			JOIN closets c on u.id=c.user_id 
+			JOIN drawers d on c.id=d.closet_id 
+			JOIN objects o on d.id=o.drawer_id WHERE u.id=".$_SESSION['id']." AND (o.name like '%".$_SESSION['advanced-search']."%' or o.id in (select object_id from properties WHERE property_name like '%".$_SESSION['advanced-search']."%' or property_value like '%".$_SESSION['advanced-search']."%')) AND d.id=".$_SESSION['property']." AND to_char(o.creation_date,'YYYY-MM-DD') LIKE '%".$_SESSION['date']."%'");
+		    oci_execute($stid);
+		}
 
 		 	$count=0;
 
