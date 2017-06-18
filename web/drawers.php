@@ -11,6 +11,7 @@
     if(isset($_POST['search']))
     	if(isset($_POST['search-text']))
     	{
+    		$_SESSION['case']=0;
     		$_SESSION['search']=$_POST['search-text'];
     		header('Location: search.php');
     	}
