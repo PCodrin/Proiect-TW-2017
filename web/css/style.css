@@ -41,6 +41,12 @@ button a, td a{
 	font-size: 25px;
 }
 
+.form.object h2{
+	font-size: 17px;
+	margin-bottom: 3%;
+}
+
+
 .form.object p{
 	box-shadow: initial;
 	padding: 3%;
@@ -232,9 +238,9 @@ main p {
 	border: 0;
 }
 
-.form.advanced select
+.form.advanced select, .form.object select
 {
-	margin-top: 5%;
+	margin-bottom: 3%;
 	width: 30%;
 	padding: 15px;
   	box-shadow: 3px 3px 3px 0px #32bea6, 0px 0px 5px 0px #32bea6;
@@ -259,9 +265,6 @@ main p {
 	margin-left: 25px;
 }
 
-.form.advanced h1{
-	float: left;
-}
 
 .form.advanced p{
 	

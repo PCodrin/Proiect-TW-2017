@@ -171,6 +171,7 @@
 <html lang="en">
 <head>
 	<title>DulApp Homepage</title>
+	<link href="atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/reset.css">
@@ -361,6 +362,7 @@
 		<ul>
 			<li><a href="">Contact</a></li>
 			<li><a href="">About</a></li>
+			<li><a href="feed.php">Feed</a></li>
 		</ul>
 	</footer>
 </body>

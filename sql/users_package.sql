@@ -149,8 +149,12 @@ CREATE OR REPLACE PACKAGE BODY users_tw IS
 END users_tw;
 
 
+SELECT  d.name  FROM  closets c  
+		JOIN drawers d on c.id=d.closet_id 
+		JOIN objects o on d.id=o.drawer_id WHERE c.id=5;
 
-
+SELECT d.name FROM drawers d join closets c on c.id=d.closet_id
+join objects o on d.id=o.drawer_id where c.id=2;
 
 
 

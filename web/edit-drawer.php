@@ -207,11 +207,4 @@
 					</form>'; -->
 	</main>
 
-	<footer>
-		<ul>
-			<li><a href="">Contact</a></li>
-			<li><a href="">About</a></li>
-		</ul>
-	</footer>
-</body>
-</html>
+	<?php require_once('footer.php'); ?>
